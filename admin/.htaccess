@@ -1,0 +1,27 @@
+# Enable Rewrite Engine
+RewriteEngine On
+
+# Set the base directory
+RewriteBase /admin/
+
+# Redirect www to non-www (optional)
+# RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+# RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
+
+# Redirect to HTTPS (optional but recommended)
+RewriteCond %{HTTPS} off
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Prevent directory listing
+Options -Indexes
+
+# If a directory or file exists, do not rewrite
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Route all other requests to index.php (for clean URL routing if needed)
+# If you are NOT using routing, you can comment out this line
+# RewriteRule ^(.+)$ index.php?url=$1 [QSA,L]
+
+# Allow PHP to execute redirects properly
+AddType application/x-httpd-php .php
